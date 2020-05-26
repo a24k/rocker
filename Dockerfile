@@ -3,7 +3,7 @@ FROM messense/rust-musl-cross:arm-musleabihf
 ARG TOOLCHAIN=stable
 ARG TARGET=arm-unknown-linux-musleabihf
 ARG ALSA_ARCH=arm-unknown-linux
-ARG PA_ARCH=arm-unknown-linux
+ARG PORTAUDIO_ARCH=arm-unknown-linux
 
 RUN apt-get update && \
     apt-get install -y \
@@ -56,15 +56,15 @@ RUN export CC=$TARGET_CC && \
     VERS=v190600_20161030 && \
     curl -sqOL http://www.portaudio.com/archives/pa_stable_$VERS.tgz && \
     tar xzf pa_stable_$VERS.tgz && cd portaudio && \
-    ./configure --host=$PA_ARCH --enable-shared=no --enable-static=yes --prefix=/usr/local/musl/$TARGET && \
+    ./configure --host=$PORTAUDIO_ARCH --enable-shared=no --enable-static=yes --prefix=/usr/local/musl/$TARGET && \
     make install && \
     cd .. && rm -rf ps_stable_$VERS.tgz portaudio
 
-ENV PA_DIR=/usr/local/musl/$TARGET/ \
-    PA_INCLUDE_DIR=/usr/local/musl/$TARGET/include/ \
-    DEP_PA_INCLUDE=/usr/local/musl/$TARGET/include/ \
-    PA_LIB_DIR=/usr/local/musl/$TARGET/lib/ \
-    PA_STATIC=1
+ENV PORTAUDIO_DIR=/usr/local/musl/$TARGET/ \
+    PORTAUDIO_INCLUDE_DIR=/usr/local/musl/$TARGET/include/ \
+    DEP_PORTAUDIO_INCLUDE=/usr/local/musl/$TARGET/include/ \
+    PORTAUDIO_LIB_DIR=/usr/local/musl/$TARGET/lib/ \
+    PORTAUDIO_STATIC=1
 
 # Expect our source code to live in /home/rust/src
 WORKDIR /home/rust/src
