@@ -1,0 +1,13 @@
+--- gcc-9.3.0/libsanitizer/asan/asan_linux.cc	2020-03-12 20:07:24.000000000 +0900
++++ gcc-9.3.0/libsanitizer/asan/asan_linux_patched.cc	2020-05-28 06:58:51.320897282 +0900
+@@ -75,6 +75,10 @@ SANITIZER_INTERFACE_ATTRIBUTE
+ asan_rt_version_t  __asan_rt_version;
+ }
+
++#ifndef PATH_MAX
++#define PATH_MAX 4096
++#endif
++
+ namespace __asan {
+
+ void InitializePlatformInterceptors() {}
