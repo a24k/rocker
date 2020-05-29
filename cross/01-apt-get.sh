@@ -24,7 +24,5 @@ apt install -y \
     gcc \
     python3 \
     bison \
-    gcc-arm-linux-gnueabi \
-    gcc-arm-linux-gnueabihf
-
+    && \
 apt clean

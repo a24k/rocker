@@ -4,7 +4,9 @@ set -e
 
 PREFIX=/usr/local
 PARALLEL_MAKE=-j2
-CONFIGURATION_OPTIONS="--disable-multilib --disable-nls"
+CONFIGURATION_OPTIONS=""
+GCC_CONFIGURATION_OPTIONS="--with-arch=armv6 --with-fpu=vfp --with-float=hard"
+GCC_ENABLE_LANGUAGES="c,c++"
 
 BINUTILS_VERSION=binutils-2.34
 GCC_VERSION=gcc-9.3.0
@@ -18,20 +20,31 @@ build() {
     # Step 1. Binutils
     mkdir -p build-binutils-$TARGET
     cd build-binutils-$TARGET
-    ../$BINUTILS_VERSION/configure --prefix=$PREFIX --target=$TARGET $CONFIGURATION_OPTIONS
+    ../$BINUTILS_VERSION/configure \
+        --prefix=$PREFIX \
+        --target=$TARGET \
+        $CONFIGURATION_OPTIONS
     make $PARALLEL_MAKE
     make install
     cd ..
 
     # Step 2. Linux Kernel Headers
     cd $LINUX_KERNEL_VERSION
-    make ARCH=$LINUX_ARCH INSTALL_HDR_PATH=$PREFIX/$TARGET headers_install
+    make \
+        ARCH=$LINUX_ARCH \
+        INSTALL_HDR_PATH=$PREFIX/$TARGET \
+        headers_install
     cd ..
 
     # Step 3. C/C++ Compilers
     mkdir -p build-gcc-$TARGET
     cd build-gcc-$TARGET
-    ../$GCC_VERSION/configure --prefix=$PREFIX --target=$TARGET --enable-languages=c,c++ $CONFIGURATION_OPTIONS
+    ../$GCC_VERSION/configure \
+        --prefix=$PREFIX \
+        --target=$TARGET \
+        --enable-languages=$GCC_ENABLE_LANGUAGES \
+        $CONFIGURATION_OPTIONS \
+        $GCC_CONFIGURATION_OPTIONS
     make $PARALLEL_MAKE gcc_cv_libc_provides_ssp=yes all-gcc
     make install-gcc
     cd ..
@@ -39,11 +52,21 @@ build() {
     # Step 4. Standard C Library Headers and Startup Files
     mkdir -p build-glibc-$TARGET
     cd build-glibc-$TARGET
-    ../$GLIBC_VERSION/configure --prefix=$PREFIX/$TARGET --build=$MACHTYPE --host=$TARGET --target=$TARGET --with-headers=$PREFIX/$TARGET/include $CONFIGURATION_OPTIONS libc_cv_forced_unwind=yes
+    ../$GLIBC_VERSION/configure \
+        --prefix=$PREFIX/$TARGET \
+        --build=$MACHTYPE \
+        --host=$TARGET \
+        --target=$TARGET \
+        --with-headers=$PREFIX/$TARGET/include \
+        $CONFIGURATION_OPTIONS \
+        libc_cv_forced_unwind=yes
     make install-bootstrap-headers=yes install-headers
     make $PARALLEL_MAKE csu/subdir_lib
     install csu/crt1.o csu/crti.o csu/crtn.o $PREFIX/$TARGET/lib
-    $TARGET-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o $PREFIX/$TARGET/lib/libc.so
+    $TARGET-gcc \
+        -nostdlib -nostartfiles -shared \
+        -x c /dev/null \
+        -o $PREFIX/$TARGET/lib/libc.so
     touch $PREFIX/$TARGET/include/gnu/stubs.h
     cd ..
 
@@ -68,9 +91,10 @@ build() {
     rm -rf build-binutils-$TARGET build-gcc-$TARGET build-glibc-$TARGET
 }
 
+build arm-linux-gnueabihf arm
+
 #build i686-linux-gnu x86
 #build arm-linux-gnueabi arm
-build arm-linux-gnueabihf arm
 #build aarch64-linux-gnu arm64
 #build powerpc-linux-gnu powerpc
 #build powerpc64le-linux-gnu powerpc
