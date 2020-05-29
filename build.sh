@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-echo "docker build for arm-unknown-linux-musleabihf with audio libraries"
-docker build --rm --no-cache -t rust-musl-cross-audio:arm-musleabihf .
+echo "docker build for arm-unknown-linux-gnueabihf with alsa library"
+docker build --rm -t rust-cross-alsa:arm-linux-gnueabihf .
