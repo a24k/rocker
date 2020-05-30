@@ -1,6 +1,6 @@
 FROM a24k/rocker:latest-armv6hf
 
-COPY ./cross /host
+COPY . /host
 
 WORKDIR /tmp
 
