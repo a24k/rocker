@@ -24,6 +24,8 @@ apt install -y \
     gcc \
     python3 \
     bison \
-    pkg-config \
-    && \
+    pkg-config
+
 apt clean
+
+rm -rf /var/lib/apt/lists/*
