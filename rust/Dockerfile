@@ -1,15 +1,10 @@
-FROM ubuntu:20.04
+FROM a24k/rocker:latest-armv6hf-norust
 
-COPY ./cross /host
+COPY . /host
 
 WORKDIR /tmp
 
-RUN /host/01-apt-get.sh && \
-        /host/02-download-gcc.sh && \
-        /host/03-build-gcc.sh && \
-        /host/04-cleanup.sh && \
-        /host/05-rustup.sh && \
-        /host/06-alsa.sh
+RUN /host/05-rustup.sh
 
 ENV PATH=/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
