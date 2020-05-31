@@ -43,9 +43,9 @@ Tags are named with a format that likes ```<version>-<arch>-<libraries>```.
 
 #### \<arch\>
 
-| arch | meaning |
-| ---- | ---- |
-| ```armv6hf``` | ARMv6 + VFP |
+| arch | meaning | details |
+| ---- | ---- | ---- |
+| ```armv6hf``` | ARMv6 + VFP | ```--with-arch=armv6 --with-fpu=vfp --with-float=hard``` |
 
 #### \<libraries\>
 
