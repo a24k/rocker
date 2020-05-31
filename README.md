@@ -29,7 +29,7 @@ $ docker run --rm -it \
       cargo build --release
 ```
 
-### Options for Quick Guide
+### Options in the Quick Guide
 
 | options | meaning |
 | ---- | ---- |
@@ -37,17 +37,17 @@ $ docker run --rm -it \
 | ```-v "$(pwd)"/.cargo/registry:/root/.cargo/registry``` | if you want to cache crates, this sample will do |
 | ```a24k/rocker:latest-armv6hf-alsa``` | choose tag for the tagrget architecture |
 
-### Tags
+## Supported Tags
 
 Tags are named with a format that likes ```<version>-<arch>-<libraries>```.
 
-#### \<arch\>
+### \<arch\>
 
 | arch | meaning | details |
 | ---- | ---- | ---- |
 | ```armv6hf``` | ARMv6 + VFP | ```--with-arch=armv6 --with-fpu=vfp --with-float=hard``` |
 
-#### \<libraries\>
+### \<libraries\>
 
 | libraries | meaning |
 | ---- | ---- |
