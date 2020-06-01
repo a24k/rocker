@@ -54,3 +54,10 @@ Tags are named with a format that likes ```<version>-<arch>-<libraries>```.
 | ```norust``` | specify the working directory |
 | ```rust```, ```<none>``` | ```norust``` + rust toolchains |
 | ```alsa``` | ```rust``` + ALSA library |
+
+## License
+
+These Docker recipes are distributed under [The MIT
+License](https://opensource.org/licenses/MIT).
+
+Copyright (c) 2020 Atsushi KAWASAKI.
