@@ -9,23 +9,10 @@ DEBIAN_FRONTEND=noninteractive \
 apt install -y \
     build-essential \
     texinfo \
-    gawk \
-    less \
     wget \
-    curl \
-    cmake \
-    file \
-    git \
-    sudo \
-    xutils-dev \
-    unzip \
-    vim-tiny \
-    binutils \
-    gcc \
+    gawk \
     python3 \
     bison \
+    git \
+    curl \
     pkg-config
-
-apt clean
-
-rm -rf /var/lib/apt/lists/*

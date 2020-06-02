@@ -25,7 +25,7 @@ build() {
         --target=$TARGET \
         $CONFIGURATION_OPTIONS
     make $PARALLEL_MAKE
-    make install
+    make install-strip
     cd ..
 
     # Step 2. Linux Kernel Headers
@@ -46,7 +46,7 @@ build() {
         $CONFIGURATION_OPTIONS \
         $GCC_CONFIGURATION_OPTIONS
     make $PARALLEL_MAKE gcc_cv_libc_provides_ssp=yes all-gcc
-    make install-gcc
+    make install-strip-gcc
     cd ..
 
     # Step 4. Standard C Library Headers and Startup Files
@@ -73,7 +73,7 @@ build() {
     # Step 5. Compiler Support Library
     cd build-gcc-$TARGET
     make $PARALLEL_MAKE all-target-libgcc
-    make install-target-libgcc
+    make install-strip-target-libgcc
     cd ..
 
     # Step 6. Standard C Library & the rest of Glibc
@@ -85,7 +85,7 @@ build() {
     # Step 7. Standard C++ Library & the rest of GCC
     cd build-gcc-$TARGET
     make $PARALLEL_MAKE all
-    make install
+    make install-strip
     cd ..
 
     rm -rf build-binutils-$TARGET build-gcc-$TARGET build-glibc-$TARGET
