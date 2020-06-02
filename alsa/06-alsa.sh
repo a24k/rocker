@@ -21,7 +21,7 @@ cd $FILENAME_VERSION
 
 ./configure --host=$TARGET --prefix=$PREFIX
 make
-make install
+make install-strip
 
 cd ..
 rm -rf *
